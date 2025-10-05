@@ -1,9 +1,6 @@
-
 export default {
   mode: 'universal',
-  /*
-  ** Headers of the page
-  */
+  
   head: {
     title: process.env.npm_package_name || '',
     meta: [
@@ -15,38 +12,27 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  /*
-  ** Customize the progress-bar color
-  */
+  
   loading: { color: '#fff' },
-  /*
-  ** Global CSS
-  */
-  css: [
-  ],
-  /*
-  ** Plugins to load before mounting the App
-  */
+  
+  css: [],
+  
   plugins: [
+    '~/plugins/api.js',
+    '~/plugins/swal.js'
   ],
-  /*
-  ** Nuxt.js dev-modules
-  */
-   buildModules: [
-   
-  ],
-  /*
-  ** Nuxt.js modules
-  */
+  
+  buildModules: [],
+  
   modules: [
+    '@nuxtjs/axios',
   ],
-  /*
-  ** Build configuration
-  */
+  
+  axios: {
+    baseURL: 'http://localhost:8080', 
+  },
+  
   build: {
-    /*
-    ** You can extend webpack config here
-    */
     extend (config, ctx) {
     }
   }

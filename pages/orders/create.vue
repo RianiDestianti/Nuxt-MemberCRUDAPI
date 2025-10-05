@@ -9,12 +9,12 @@
       </div>
     </div>
 
-    <order-form :form="form" :members="members" @submit="submitOrder" />
+    <OrderForm :form="form" :members="members" @submit="submitOrder" />
   </div>
 </template>
 
 <script>
-import OrderForm from "~/components/order-form.vue";
+import OrderForm from "~/components/OrderForm.vue";
 
 export default {
   layout: "app",
@@ -27,14 +27,22 @@ export default {
   },
   methods: {
     async fetchMembers() {
-      const res = await this.$api.$get("/members");
-      this.members = res.data;
+      try {
+        const res = await this.$api.$get("/members");
+        this.members = res.data;
+      } catch (err) {
+        console.error("Fetch members error:", err);
+      }
     },
     async submitOrder(data) {
-      const resp = await this.$api.$post("/orders", data);
-      if (resp.status) {
-        this.$swal.fire("Success", "Order created successfully", "success");
-        this.$router.push("/orders");
+      try {
+        const resp = await this.$api.$post("/orders", data);
+        if (resp.status) {
+          this.$swal.fire("Success", "Order created successfully", "success");
+          this.$router.push("/orders");
+        }
+      } catch (err) {
+        this.$swal.fire("Error", "Failed to create order", "error");
       }
     },
   },
