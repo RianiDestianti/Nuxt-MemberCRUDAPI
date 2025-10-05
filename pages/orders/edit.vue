@@ -15,79 +15,44 @@
 </template>
 
 <script>
-import OrderForm from "~/components/OrderForm.vue";
+import OrderForm from '~/components/OrderForm.vue'
 
 export default {
-  layout: "app",
+  layout: 'app',
   components: { OrderForm },
   data() {
     return {
       id: null,
-      form: { 
-        member_id: "", 
-        order_date: "", 
-        total: "", 
-        status: "pending" 
-      },
+      form: { member_id: '', order_date: '', total: '', status: 'pending' },
       members: [],
       formLoaded: false,
-    };
+    }
   },
   methods: {
     async fetchMembers() {
-      try {
-        const res = await this.$api.get("/members");
-        this.members = res.data?.data || [];
-      } catch {
-        this.$swal.fire("Error", "Failed to load members", "error");
-      }
+      const res = await this.$api.get('/members')
+      this.members = res.data.data
     },
-    
     async fetchOrder() {
-      this.id = this.$route.query.id || this.$route.query.content;
-      if (!this.id) {
-        this.$swal.fire("Error", "Order ID not found in URL", "error");
-        this.$router.push("/orders");
-        return;
+      this.id = this.$route.query.id || this.$route.query.content
+      const res = await this.$api.get(`/orders/${this.id}`)
+      const o = res.data.data
+      this.form = {
+        member_id: String(o.member_id),
+        order_date: o.order_date,
+        total: String(o.total).replace('.00', ''),
+        status: o.status,
       }
-
-      try {
-        const res = await this.$api.get(`/orders/${this.id}`);
-        const order = res.data?.data;
-        this.form = {
-          member_id: String(order.member_id),
-          order_date: order.order_date,
-          total: String(order.total).replace(".00", ""),
-          status: order.status,
-        };
-        this.formLoaded = true;
-      } catch {
-        this.$swal.fire("Error", "Failed to load order data", "error");
-        this.$router.push("/orders");
-      }
+      this.formLoaded = true
     },
-    
     async updateOrder(data) {
-      try {
-        const res = await this.$api.put(`/orders/${this.id}`, data);
-        if (res.data?.status) {
-          await this.$swal.fire({
-            icon: "success",
-            title: "Success",
-            text: "Order updated successfully",
-            timer: 2000,
-          });
-          this.$router.push("/orders");
-        } else {
-          this.$swal.fire("Error", res.data?.message || "Update failed", "error");
-        }
-      } catch {
-        this.$swal.fire("Error", "Failed to update order", "error");
-      }
+      const res = await this.$api.put(`/orders/${this.id}`, data)
+      this.$swal.fire('Success', res.data.message, 'success')
+      this.$router.push('/orders')
     },
   },
   mounted() {
-    this.fetchMembers().then(() => this.fetchOrder());
+    this.fetchMembers().then(() => this.fetchOrder())
   },
-};
+}
 </script>

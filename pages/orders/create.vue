@@ -14,40 +14,30 @@
 </template>
 
 <script>
-import OrderForm from "~/components/OrderForm.vue";
+import OrderForm from '~/components/OrderForm.vue'
 
 export default {
-  layout: "app",
+  layout: 'app',
   components: { OrderForm },
   data() {
     return {
-      form: { member_id: "", order_date: "", total: "", status: "pending" },
+      form: { member_id: '', order_date: '', total: '', status: 'pending' },
       members: [],
-    };
+    }
   },
   methods: {
     async fetchMembers() {
-      try {
-        const res = await this.$api.$get("/members");
-        this.members = res.data;
-      } catch (err) {
-        console.error("Fetch members error:", err);
-      }
+      const res = await this.$api.get('/members')
+      this.members = res.data.data
     },
     async submitOrder(data) {
-      try {
-        const resp = await this.$api.$post("/orders", data);
-        if (resp.status) {
-          this.$swal.fire("Success", "Order created successfully", "success");
-          this.$router.push("/orders");
-        }
-      } catch (err) {
-        this.$swal.fire("Error", "Failed to create order", "error");
-      }
+      const res = await this.$api.post('/orders', data)
+      this.$swal.fire('Success', res.data.message, 'success')
+      this.$router.push('/orders')
     },
   },
   mounted() {
-    this.fetchMembers();
+    this.fetchMembers()
   },
-};
+}
 </script>

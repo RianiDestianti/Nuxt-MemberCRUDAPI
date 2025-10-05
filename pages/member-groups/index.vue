@@ -44,28 +44,14 @@ export default {
     }
   },
   async mounted() {
-    await this.fetchMemberGroups()
+    const res = await this.$api.get('/member-groups')
+    this.memberGroups = res.data.data
   },
   methods: {
-    async fetchMemberGroups() {
-      try {
-        const res = await this.$api.get('/member-groups')
-        this.memberGroups = res.data.data
-      } catch (error) {
-        console.error('Gagal memuat data:', error)
-      }
-    },
     async deleteMemberGroup(member_id, group_id) {
-      if (confirm('Yakin ingin menghapus data ini?')) {
-        try {
-          await this.$api.delete(`/member-groups/${member_id}/${group_id}`)
-          alert('Berhasil dihapus!')
-          this.fetchMemberGroups()
-        } catch (error) {
-          alert('Gagal menghapus data!')
-          console.error(error)
-        }
-      }
+      await this.$api.delete(`/member-groups/${member_id}/${group_id}`)
+      alert('Berhasil dihapus!')
+      this.memberGroups = (await this.$api.get('/member-groups')).data.data
     },
   },
 }

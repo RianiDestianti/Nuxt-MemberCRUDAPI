@@ -16,7 +16,9 @@
     </div>
 
     <div class="text-end">
-      <button type="submit" class="btn btn-primary">{{ isEdit ? 'Update' : 'Simpan' }}</button>
+      <button type="submit" class="btn btn-primary">
+        {{ isEdit ? 'Update' : 'Simpan' }}
+      </button>
     </div>
   </form>
 </template>
@@ -38,8 +40,8 @@ export default {
   },
   watch: {
     formData: {
-      handler(newVal) {
-        this.form = { ...newVal }
+      handler(val) {
+        this.form = { ...val }
       },
       deep: true,
     },

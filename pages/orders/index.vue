@@ -38,7 +38,9 @@
                 >
                   Edit
                 </nuxt-link>
-                <button @click="deleteOrder(item)" class="btn btn-danger btn-sm">Delete</button>
+                <button @click="deleteOrder(item)" class="btn btn-danger btn-sm">
+                  Delete
+                </button>
               </td>
             </tr>
           </tbody>
@@ -53,52 +55,32 @@
 <script>
 export default {
   data() {
-    return {
-      orders: [],
-    };
+    return { orders: [] }
   },
   methods: {
     async fetchOrders() {
-      try {
-        const res = await this.$api.get("/orders");
-        this.orders = res.data?.data?.map(o => ({
-          ...o,
-          member: o.member || {},
-        })) || [];
-      } catch {
-        this.$swal.fire("Error", "Failed to load orders", "error");
-      }
+      const res = await this.$api.get('/orders')
+      this.orders = res.data.data.map(o => ({ ...o, member: o.member || {} }))
     },
-
-    formatCurrency(value) {
-      return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-      }).format(value);
+    formatCurrency(v) {
+      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(v)
     },
-
     async deleteOrder(order) {
-      const confirmDelete = await this.$swal.fire({
-        title: "Delete Order?",
+      const confirm = await this.$swal.fire({
+        title: 'Delete Order?',
         text: `Delete order of ${order.member.name}?`,
-        icon: "warning",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
-      });
-
-      if (confirmDelete.isConfirmed) {
-        try {
-          await this.$api.delete(`/orders/${order.id}`);
-          await this.fetchOrders();
-          this.$swal.fire("Deleted!", "Order has been deleted.", "success");
-        } catch {
-          this.$swal.fire("Error", "Failed to delete order", "error");
-        }
-      }
+        confirmButtonText: 'Yes, delete it!',
+      })
+      if (!confirm.isConfirmed) return
+      await this.$api.delete(`/orders/${order.id}`)
+      await this.fetchOrders()
+      this.$swal.fire('Deleted!', 'Order has been deleted.', 'success')
     },
   },
   mounted() {
-    this.fetchOrders();
+    this.fetchOrders()
   },
-};
+}
 </script>
