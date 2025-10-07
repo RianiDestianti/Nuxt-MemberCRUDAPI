@@ -1,13 +1,19 @@
 <template>
   <form @submit.prevent="handleSubmit">
     <div class="mb-3">
-      <label>Member ID</label>
-      <input type="number" v-model="form.member_id" class="form-control" required />
+      <label>Member</label>
+      <select v-model="form.member_id" class="form-control" required>
+        <option value="">Pilih Member</option>
+        <option v-for="m in members" :key="m.id" :value="m.id">{{ m.name }}</option>
+      </select>
     </div>
 
     <div class="mb-3">
-      <label>Group ID</label>
-      <input type="number" v-model="form.group_id" class="form-control" required />
+      <label>Group</label>
+      <select v-model="form.group_id" class="form-control" required>
+        <option value="">Pilih Group</option>
+        <option v-for="g in groups" :key="g.id" :value="g.id">{{ g.name }}</option>
+      </select>
     </div>
 
     <div class="mb-3">
@@ -28,22 +34,25 @@ export default {
   props: {
     isEdit: { type: Boolean, default: false },
     formData: { type: Object, default: () => ({}) },
+    members: { type: Array, default: () => [] },
+    groups: { type: Array, default: () => [] },
   },
   data() {
     return {
-      form: {
-        member_id: this.formData.member_id || '',
-        group_id: this.formData.group_id || '',
-        role: this.formData.role || '',
-      },
+      form: { member_id: '', group_id: '', role: '' },
     }
   },
   watch: {
     formData: {
       handler(val) {
-        this.form = { ...val }
+        this.form = {
+          member_id: val.member_id || '',
+          group_id: val.group_id || '',
+          role: val.role || '',
+        }
       },
       deep: true,
+      immediate: true,
     },
   },
   methods: {

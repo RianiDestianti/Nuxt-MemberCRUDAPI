@@ -27,12 +27,12 @@ export default {
   },
   methods: {
     async fetchMembers() {
-      const res = await this.$api.get('/members')
-      this.members = res.data.data
+      const memberApi = (await this.$api.get('/members'))?.data
+      this.members = memberApi?.data || []
     },
     async submitOrder(data) {
-      const res = await this.$api.post('/orders', data)
-      this.$swal.fire('Success', res.data.message, 'success')
+      const orderApi = (await this.$api.post('/orders', data))?.data
+      this.$swal.fire('Success', orderApi?.message || 'Order created', 'success')
       this.$router.push('/orders')
     },
   },

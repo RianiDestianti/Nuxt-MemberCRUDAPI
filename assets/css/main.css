@@ -1,0 +1,49 @@
+.card {
+  border-radius: 1.5rem;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.15); /* shadow biru lembut */
+}
+
+.form-control {
+  border-radius: 50px;
+  border: 1px solid #007bff;
+  padding: 0.6rem 1rem;
+  transition: all 0.3s;
+}
+
+.form-control:focus {
+  border-color: #0056b3;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  border-radius: 50px;
+  padding: 0.5rem 1.5rem;
+  transition: all 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.table {
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: #f8f9ff;
+}
+
+.table thead {
+  background-color: #007bff;
+  color: white;
+}
+
+.table tbody tr:hover {
+  background-color: #e0f0ff;
+}
+
+.page-title h2 {
+  color: #007bff;
+}

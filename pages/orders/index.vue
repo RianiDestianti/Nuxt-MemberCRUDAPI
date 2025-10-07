@@ -59,8 +59,8 @@ export default {
   },
   methods: {
     async fetchOrders() {
-      const res = await this.$api.get('/orders')
-      this.orders = res.data.data.map(o => ({ ...o, member: o.member || {} }))
+      const orderApi = (await this.$api.get('/orders'))?.data
+      this.orders = (orderApi?.data || []).map(o => ({ ...o, member: o.member || {} }))
     },
     formatCurrency(v) {
       return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(v)

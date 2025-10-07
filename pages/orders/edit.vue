@@ -9,7 +9,12 @@
       </div>
     </div>
 
-    <OrderForm v-if="formLoaded" :form="form" :members="members" @submit="updateOrder" />
+    <OrderForm
+      v-if="formLoaded"
+      :form="form"
+      :members="members"
+      @submit="updateOrder"
+    />
     <div v-else class="alert alert-info">Loading order data...</div>
   </div>
 </template>
@@ -30,24 +35,24 @@ export default {
   },
   methods: {
     async fetchMembers() {
-      const res = await this.$api.get('/members')
-      this.members = res.data.data
+      const memberApi = (await this.$api.get('/members'))?.data
+      this.members = memberApi?.data || []
     },
     async fetchOrder() {
       this.id = this.$route.query.id || this.$route.query.content
-      const res = await this.$api.get(`/orders/${this.id}`)
-      const o = res.data.data
+      const orderApi = (await this.$api.get(`/orders/${this.id}`))?.data
+      const o = orderApi?.data || {}
       this.form = {
-        member_id: String(o.member_id),
-        order_date: o.order_date,
-        total: String(o.total).replace('.00', ''),
-        status: o.status,
+        member_id: String(o.member_id || ''),
+        order_date: o.order_date || '',
+        total: String(o.total || '').replace('.00', ''),
+        status: o.status || 'pending',
       }
       this.formLoaded = true
     },
     async updateOrder(data) {
-      const res = await this.$api.put(`/orders/${this.id}`, data)
-      this.$swal.fire('Success', res.data.message, 'success')
+      const orderApi = (await this.$api.put(`/orders/${this.id}`, data))?.data
+      this.$swal.fire('Success', orderApi?.message || 'Order updated', 'success')
       this.$router.push('/orders')
     },
   },
