@@ -1,6 +1,6 @@
 export default {
   mode: 'universal',
-  
+
   head: {
     title: process.env.npm_package_name || '',
     meta: [
@@ -12,26 +12,29 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  
+
   loading: { color: '#fff' },
-  
-  css: [],
-  
+
+  css: [
+    '~/static/assets/style.css',
+    '~/static/assets/main.css'
+  ],
+
   plugins: [
     '~/plugins/api.js',
     '~/plugins/swal.js'
   ],
-  
+
   buildModules: [],
-  
+
   modules: [
     '@nuxtjs/axios',
   ],
-  
+
   axios: {
     baseURL: 'http://localhost:8080', 
   },
-  
+
   build: {
     extend (config, ctx) {
     }
