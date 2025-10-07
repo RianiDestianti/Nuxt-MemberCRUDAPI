@@ -35,13 +35,11 @@ export default {
   },
   methods: {
     async fetchMembers() {
-      const memberApi = (await this.$api.get('/members'))?.data
-      this.members = memberApi?.data || []
+      this.members = (await this.$api.get('/members'))?.data?.data || []
     },
     async fetchOrder() {
       this.id = this.$route.query.id || this.$route.query.content
-      const orderApi = (await this.$api.get(`/orders/${this.id}`))?.data
-      const o = orderApi?.data || {}
+      const o = (await this.$api.get(`/orders/${this.id}`))?.data?.data || {}
       this.form = {
         member_id: String(o.member_id || ''),
         order_date: o.order_date || '',
@@ -51,8 +49,8 @@ export default {
       this.formLoaded = true
     },
     async updateOrder(data) {
-      const orderApi = (await this.$api.put(`/orders/${this.id}`, data))?.data
-      this.$swal.fire('Success', orderApi?.message || 'Order updated', 'success')
+      this.orderResponse = (await this.$api.put(`/orders/${this.id}`, data))?.data
+      this.$swal.fire('Success', this.orderResponse?.message || 'Order updated', 'success')
       this.$router.push('/orders')
     },
   },
@@ -61,3 +59,5 @@ export default {
   },
 }
 </script>
+
+<style scoped src="~/assets/css/main.css"></style>

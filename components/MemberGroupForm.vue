@@ -45,11 +45,9 @@ export default {
   watch: {
     formData: {
       handler(val) {
-        this.form = {
-          member_id: val.member_id || '',
-          group_id: val.group_id || '',
-          role: val.role || '',
-        }
+        this.form.member_id = val.member_id || ''
+        this.form.group_id = val.group_id || ''
+        this.form.role = val.role || ''
       },
       deep: true,
       immediate: true,
@@ -57,6 +55,7 @@ export default {
   },
   methods: {
     handleSubmit() {
+      this.form.member_id = parseInt(this.form.member_id)
       this.$emit('submit', this.form)
     },
   },

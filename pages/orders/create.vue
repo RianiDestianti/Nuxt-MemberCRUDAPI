@@ -27,12 +27,11 @@ export default {
   },
   methods: {
     async fetchMembers() {
-      const memberApi = (await this.$api.get('/members'))?.data
-      this.members = memberApi?.data || []
+      this.members = (await this.$api.get('/members'))?.data?.data || []
     },
     async submitOrder(data) {
-      const orderApi = (await this.$api.post('/orders', data))?.data
-      this.$swal.fire('Success', orderApi?.message || 'Order created', 'success')
+      this.orderResponse = (await this.$api.post('/orders', data))?.data
+      this.$swal.fire('Success', this.orderResponse?.message || 'Order created', 'success')
       this.$router.push('/orders')
     },
   },
@@ -41,3 +40,5 @@ export default {
   },
 }
 </script>
+
+<style scoped src="~/assets/css/main.css"></style>

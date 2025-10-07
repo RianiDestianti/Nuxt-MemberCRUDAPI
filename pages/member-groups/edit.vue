@@ -35,24 +35,19 @@ export default {
   },
   methods: {
     async fetchData() {
-      const members = (await this.$api.get('/members'))?.data?.data || []
-      const groups = (await this.$api.get('/groups'))?.data?.data || []
-      this.members = members
-      this.groups = groups
+      this.members = (await this.$api.get('/members'))?.data?.data || []
+      this.groups  = (await this.$api.get('/groups'))?.data?.data || []
     },
     async fetchForm() {
       this.member_id = this.$route.query.member_id
-      this.group_id = this.$route.query.group_id
+      this.group_id  = this.$route.query.group_id
       const api = (await this.$api.get('/member-groups'))?.data?.data || []
-      const found = api.find(
-        item => item.member_id == this.member_id && item.group_id == this.group_id
-      )
-      this.form = found || {}
+      this.form = api.find(item => item.member_id == this.member_id && item.group_id == this.group_id) || {}
       this.formLoaded = true
     },
     async updateMemberGroup(form) {
-      const res = (await this.$api.put(`/member-groups/${this.member_id}/${this.group_id}`, form))?.data
-      this.$swal.fire('Success', res?.message || 'Data berhasil diperbarui!', 'success')
+      this.response = (await this.$api.put(`/member-groups/${this.member_id}/${this.group_id}`,form))?.data
+      this.$swal.fire('Success', this.response?.message || 'Data berhasil diperbarui!', 'success')
       this.$router.push('/member-groups')
     },
   },

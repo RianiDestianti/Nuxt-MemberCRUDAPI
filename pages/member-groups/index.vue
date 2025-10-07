@@ -50,9 +50,9 @@ export default {
   },
   methods: {
     async fetchData() {
-      const api = (await this.$api.get('/member-groups'))?.data
-      this.memberGroups = api?.data || []
+      this.memberGroups = (await this.$api.get('/member-groups'))?.data?.data || []
     },
+    
     async deleteMemberGroup(item) {
       const confirm = await this.$swal.fire({
         title: 'Delete Member Group?',
@@ -61,8 +61,9 @@ export default {
         showCancelButton: true,
         confirmButtonText: 'Yes, delete it!',
       })
+
       if (!confirm.isConfirmed) return
-      await this.$api.delete(`/member-groups/${item.member_id}/${item.group_id}`)
+      this.response = await this.$api.delete(`/member-groups/${item.member_id}/${item.group_id}`)
       await this.fetchData()
       this.$swal.fire('Deleted!', 'Data berhasil dihapus.', 'success')
     },

@@ -26,14 +26,12 @@ export default {
   },
   methods: {
     async fetchData() {
-      const members = (await this.$api.get('/members'))?.data?.data || []
-      const groups = (await this.$api.get('/groups'))?.data?.data || []
-      this.members = members
-      this.groups = groups
+      this.members = (await this.$api.get('/members'))?.data?.data || []
+      this.groups  = (await this.$api.get('/groups'))?.data?.data || []
     },
     async createMemberGroup(form) {
-      const res = (await this.$api.post('/member-groups', form))?.data
-      this.$swal.fire('Success', res?.message || 'Data berhasil disimpan!', 'success')
+      this.response = (await this.$api.post('/member-groups', form))?.data
+      this.$swal.fire('Success', this.response?.message || 'Data berhasil disimpan!', 'Success')
       this.$router.push('/member-groups')
     },
   },

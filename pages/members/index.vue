@@ -40,7 +40,7 @@
             </thead>
             <tbody>
               <tr v-for="(m, i) in members" :key="m.id">
-                <td>{{ i+1 }}</td>
+                <td>{{ i + 1 }}</td>
                 <td>
                   <div class="user-cell">
                     <div class="user-avatar">{{ m.name.charAt(0).toUpperCase() }}</div>
@@ -106,7 +106,7 @@ export default {
     edit(member) {
       this.$router.push({
         path: '/members/edit',
-        query: { id: member.id, data: JSON.stringify(member) }
+        query: { id: member.id }
       })
     },
     async remove(id) {

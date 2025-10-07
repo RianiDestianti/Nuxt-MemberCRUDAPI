@@ -28,7 +28,7 @@
       </div>
 
       <div class="text-end">
-        <button @click="submit" class="btn btn-primary">Submit</button>
+        <button @click="submitForm" class="btn btn-primary">Submit</button>
       </div>
     </div>
   </div>
@@ -37,18 +37,17 @@
 <script>
 export default {
   props: {
-    form: Object,
-    members: Array,
+    form: { type: Object, required: true },
+    members: { type: Array, default: () => [] },
   },
   methods: {
-    submit() {
-      const data = {
-        ...this.form,
-        member_id: parseInt(this.form.member_id),
-        total: parseFloat(this.form.total),
-      }
-      this.$emit('submit', data)
+    submitForm() {
+      this.form.member_id = parseInt(this.form.member_id)
+      this.form.total = parseFloat(this.form.total)
+      this.$emit('submit', this.form)
     },
   },
 }
 </script>
+
+<style scoped src="~/assets/css/main.css"></style>
