@@ -32,15 +32,8 @@
               <td>{{ formatCurrency(item.total) }}</td>
               <td>{{ item.status }}</td>
               <td>
-                <nuxt-link
-                  :to="`/orders/edit?content=${item.id}`"
-                  class="btn btn-warning btn-sm me-2"
-                >
-                  Edit
-                </nuxt-link>
-                <button @click="deleteOrder(item)" class="btn btn-danger btn-sm">
-                  Delete
-                </button>
+                <nuxt-link :to="`/orders/${item.id}`" class="btn btn-warning btn-sm me-2">Edit</nuxt-link>
+                <button @click="deleteOrder(item)" class="btn btn-danger btn-sm">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -84,4 +77,3 @@ export default {
   },
 }
 </script>
-
