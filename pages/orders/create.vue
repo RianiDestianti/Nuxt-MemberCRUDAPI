@@ -13,8 +13,7 @@ export default {
   components: { OrderForm },
   data() {
     return {
-      form: { member_id: '', order_date: '', total: 0, status: 'pending' },
-      members: [],
+      form: { member_id: '', order_date: '', total: 0, status: 'pending' },members: [],
     }
   },
   methods: {
@@ -22,13 +21,12 @@ export default {
       this.members = (await this.$api.get('/members'))?.data?.data || []
     },
     async submitOrder(data) {
-      const res = (await this.$api.post('/orders', data))?.data
-      this.$swal.fire('Success', res?.message || 'Order created', 'success')
+      this.$swal.fire('Success', (await this.$api.post('/orders', data)).data?.message || 'Order created', 'success')
       this.$router.push('/orders')
-    },
+    }
   },
   mounted() {
-    this.fetchMembers()
+      this.fetchMembers()
   },
 }
 </script>

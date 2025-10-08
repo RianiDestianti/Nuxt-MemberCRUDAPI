@@ -22,14 +22,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(m, index) in group.members || []" :key="m.id">
-                <td>{{ index + 1 }}</td>
+              <tr v-for="(m, i) in group.members || []" :key="m.id">
+                <td>{{ i + 1 }}</td>
                 <td>{{ m.name }}</td>
                 <td>{{ m.pivot.role }}</td>
                 <td>{{ m.pivot.joined_at }}</td>
                 <td>
                   <button @click="editMember(group.id, m)" class="btn btn-warning btn-sm me-2">Edit</button>
-                  <button @click="deleteMember(group.id, m.id)" class="btn btn-danger btn-sm">Delete</button>
+                  <button @click="deleteMember(group.id, m.id)" class="btn btn-danger btn-sm">Hapus</button>
                 </td>
               </tr>
               <tr v-if="!(group.members || []).length">
@@ -41,50 +41,40 @@
       </div>
     </div>
 
-    <div v-else class="alert alert-info">No groups found.</div>
+    <div v-else class="alert alert-info">Tidak ada data group.</div>
   </div>
 </template>
 
 <script>
 export default {
   layout: 'app',
-  data() {
-    return {
-      groups: []
-    }
-  },
+  data: () => ({ groups: [] }),
   methods: {
     async fetchGroups() {
-      const response = await this.$api.get('/groups-list')
-      this.groups = response.data.data
+      this.groups = (await this.$api.get('/groups-list')).data.data
       this.groups.forEach(g => g.members = g.members || [])
     },
-    editMember(groupId, member) {
-      const newRole = prompt(`Edit role member ${member.name}`, member.pivot.role)
-      newRole !== null && newRole !== member.pivot.role &&
-      this.$api.put(`/member-groups/${member.id}/${groupId}`, { role: newRole })
-        .then(() => {
-          this.fetchGroups()
-          this.$swal.fire('Updated', 'Role member berhasil diperbarui', 'success')
-        })
-        .catch(() => this.$swal.fire('Error', 'Gagal update role', 'error'))
+    async editMember(groupId, member) {
+      const newRole = prompt(`Ubah role untuk ${member.name}`, member.pivot.role)
+      if (newRole && newRole !== member.pivot.role) {
+        await this.$api.put(`/member-groups/${member.id}/${groupId}`, { role: newRole })
+        this.$swal.fire('Berhasil', 'Role member diperbarui', 'success')
+        this.fetchGroups()
+      }
     },
-    deleteMember(groupId, memberId) {
-      this.$swal.fire({
+    async deleteMember(groupId, memberId) {
+      const confirm = await this.$swal.fire({
         title: 'Hapus Member?',
-        text: 'Apakah Anda yakin ingin menghapus member ini dari group?',
+        text: 'Apakah yakin ingin menghapus member ini?',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!'
-      }).then(result => {
-        result.isConfirmed &&
-        this.$api.delete(`/member-groups/${memberId}/${groupId}`)
-          .then(() => {
-            this.fetchGroups()
-            this.$swal.fire('Deleted', 'Member berhasil dihapus', 'success')
-          })
-          .catch(() => this.$swal.fire('Error', 'Gagal menghapus member', 'error'))
+        confirmButtonText: 'Ya, hapus!'
       })
+      if (confirm.isConfirmed) {
+        await this.$api.delete(`/member-groups/${memberId}/${groupId}`)
+        this.$swal.fire('Dihapus', 'Member berhasil dihapus', 'success')
+        this.fetchGroups()
+      }
     }
   },
   mounted() {

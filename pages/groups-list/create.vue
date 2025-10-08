@@ -35,23 +35,20 @@
 <script>
 export default {
   layout: 'app',
-  data() {
-    return {
-      groups: [],
-      members: [],
-      form: { group_id: '', member_id: '', role: 'member' }
-    }
-  },
+  data: () => ({
+    groups: [],
+    members: [],
+    form: { group_id: '', member_id: '', role: 'member' }
+  }),
+  
   methods: {
     async fetchData() {
-      const groupRes = await this.$api.get('/groups')
-      const memberRes = await this.$api.get('/members')
-      this.groups = groupRes.data.data
-      this.members = memberRes.data.data
+      this.groups = (await this.$api.get('/groups')).data.data
+      this.members = (await this.$api.get('/members')).data.data
     },
     async submitForm() {
-      const response = await this.$api.post('/member-groups', this.form)
-      this.$swal.fire('Success', response.data.message, 'success')
+      await this.$api.post('/member-groups', this.form)
+      this.$swal.fire('Success', 'Member berhasil ditambahkan ke group', 'success')
       this.$router.push('/groups-list')
     }
   },
