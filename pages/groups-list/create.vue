@@ -44,12 +44,14 @@ export default {
   },
   methods: {
     async fetchData() {
-      this.groups = (await this.$api.get('/groups'))?.data?.data || []
-      this.members = (await this.$api.get('/members'))?.data?.data || []
+      const groupRes = await this.$api.get('/groups')
+      const memberRes = await this.$api.get('/members')
+      this.groups = groupRes.data.data
+      this.members = memberRes.data.data
     },
     async submitForm() {
-      const res = await this.$api.post('/member-groups', this.form)
-      this.$swal.fire('Success', res?.data?.message || 'Member berhasil ditambahkan!', 'success')
+      const response = await this.$api.post('/member-groups', this.form)
+      this.$swal.fire('Success', response.data.message, 'success')
       this.$router.push('/groups-list')
     }
   },

@@ -50,33 +50,24 @@ export default {
   layout: 'app',
   data() {
     return {
-      groups: [],
-      editingMember: null
+      groups: []
     }
   },
   methods: {
     async fetchGroups() {
-      try {
-        const res = await this.$api.get('/groups-list')
-        this.groups = res?.data?.data || []
-        this.groups.forEach(g => {
-          if (!g.members) g.members = []
-        })
-      } catch (err) {
-        console.error(err)
-        this.$swal.fire('Error', 'Gagal memuat data groups', 'error')
-      }
+      const response = await this.$api.get('/groups-list')
+      this.groups = response.data.data
+      this.groups.forEach(g => g.members = g.members || [])
     },
     editMember(groupId, member) {
       const newRole = prompt(`Edit role member ${member.name}`, member.pivot.role)
-      if (newRole !== null && newRole !== member.pivot.role) {
-        this.$api.put(`/member-groups/${member.id}/${groupId}`, { role: newRole })
-          .then(() => {
-            this.fetchGroups()
-            this.$swal.fire('Updated', 'Role member berhasil diperbarui', 'success')
-          })
-          .catch(() => this.$swal.fire('Error', 'Gagal update role', 'error'))
-      }
+      newRole !== null && newRole !== member.pivot.role &&
+      this.$api.put(`/member-groups/${member.id}/${groupId}`, { role: newRole })
+        .then(() => {
+          this.fetchGroups()
+          this.$swal.fire('Updated', 'Role member berhasil diperbarui', 'success')
+        })
+        .catch(() => this.$swal.fire('Error', 'Gagal update role', 'error'))
     },
     deleteMember(groupId, memberId) {
       this.$swal.fire({
@@ -85,15 +76,14 @@ export default {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Yes, delete it!'
-      }).then(res => {
-        if (res.isConfirmed) {
-          this.$api.delete(`/member-groups/${memberId}/${groupId}`)
-            .then(() => {
-              this.fetchGroups()
-              this.$swal.fire('Deleted', 'Member berhasil dihapus', 'success')
-            })
-            .catch(() => this.$swal.fire('Error', 'Gagal menghapus member', 'error'))
-        }
+      }).then(result => {
+        result.isConfirmed &&
+        this.$api.delete(`/member-groups/${memberId}/${groupId}`)
+          .then(() => {
+            this.fetchGroups()
+            this.$swal.fire('Deleted', 'Member berhasil dihapus', 'success')
+          })
+          .catch(() => this.$swal.fire('Error', 'Gagal menghapus member', 'error'))
       })
     }
   },

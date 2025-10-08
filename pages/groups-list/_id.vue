@@ -30,9 +30,9 @@
         </tbody>
       </table>
     </div>
+
     <div v-else class="alert alert-info">Belum ada member di group ini.</div>
 
-    <!-- Modal Edit Role -->
     <div v-if="editingMember" class="modal show d-block">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -64,12 +64,11 @@ export default {
   },
   methods: {
     async fetchGroup() {
-      const id = this.$route.params.id
-      const res = await this.$api.get(`/groups/${id}`)
-      this.group = res?.data?.data || { members: [] }
+      const groupRes = await this.$api.get(`/groups/${this.$route.params.id}`)
+      this.group = groupRes.data.data
     },
     editMember(member) {
-      this.editingMember = { ...member } 
+      this.editingMember = { ...member }
     },
     async updateMember() {
       const member = this.editingMember
@@ -86,8 +85,7 @@ export default {
         showCancelButton: true,
         confirmButtonText: 'Yes, delete it!'
       })
-      if (!confirm.isConfirmed) return
-
+      confirm.isConfirmed &&
       await this.$api.delete(`/member-groups/${member.id}/${this.group.id}`)
       this.fetchGroup()
       this.$swal.fire('Deleted', 'Member berhasil dihapus', 'success')
