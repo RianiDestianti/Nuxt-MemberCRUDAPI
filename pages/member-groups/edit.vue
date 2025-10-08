@@ -21,7 +21,6 @@
 import MemberGroupForm from '~/components/MemberGroupForm.vue'
 
 export default {
-  layout: 'app',
   components: { MemberGroupForm },
   data() {
     return {

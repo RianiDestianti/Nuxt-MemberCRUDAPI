@@ -47,7 +47,6 @@
 
 <script>
 export default {
-  layout: 'app',
   data: () => ({ groups: [] }),
   methods: {
     async fetchGroups() {

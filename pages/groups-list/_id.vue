@@ -53,7 +53,6 @@
 
 <script>
 export default {
-  layout: 'app',
   data: () => ({group: { members: [] }, editingMember: null}),
 
   methods: {

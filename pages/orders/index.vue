@@ -41,7 +41,6 @@
 
 <script>
 export default {
-  layout: 'app',
   data: () => ({ orders: [] }),
   methods: {
     async fetchOrders() {
