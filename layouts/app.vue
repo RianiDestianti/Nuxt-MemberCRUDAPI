@@ -1,25 +1,24 @@
 <template>
-  <div>
+  <div class="d-flex flex-column min-vh-100">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-      <div class="container">
+      <div class="container-fluid">
         <nuxt-link class="navbar-brand" to="/">MyApp</nuxt-link>
         <button
           class="navbar-toggler"
           type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
           aria-controls="navbarNav"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ml-auto">
+          <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <nuxt-link class="nav-link" to="/dashboard">Dashboard</nuxt-link>
+              <nuxt-link class="nav-link active" to="/dashboard">Dashboard</nuxt-link>
             </li>
             <li class="nav-item">
               <nuxt-link class="nav-link" to="/profile">Profile</nuxt-link>
@@ -33,7 +32,7 @@
     </nav>
 
     <!-- Content -->
-    <main class="py-4">
+    <main class="flex-grow-1 py-4">
       <nuxt />
     </main>
 

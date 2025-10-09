@@ -28,10 +28,10 @@ export default {
         src: 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js',
         defer: true
       },
-      {
-        src: 'https://cdn.tailwindcss.com',
-        defer: true
-      }
+      // {
+      //   src: 'https://cdn.tailwindcss.com',
+      //   defer: true
+      // }
     ]
   },
 
