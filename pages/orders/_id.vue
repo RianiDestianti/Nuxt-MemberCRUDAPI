@@ -15,6 +15,7 @@
 import OrderForm from '~/components/OrderForm.vue'
 
 export default {
+  layout: 'app',
   components: { OrderForm },
   data: () => ({
     form: { member_id: '', order_date: '', total: 0, status: 'pending' }, members: [],

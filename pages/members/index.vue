@@ -95,6 +95,7 @@
 import memberService from '~/services/memberService'
 
 export default {
+  layout: 'app',
   data() {
     return { members: [] }
   },

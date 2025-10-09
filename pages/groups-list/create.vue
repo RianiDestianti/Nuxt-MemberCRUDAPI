@@ -34,6 +34,7 @@
 
 <script>
 export default {
+  layout: 'app',
   data: () => ({
     groups: [],
     members: [],

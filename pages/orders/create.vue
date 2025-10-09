@@ -10,6 +10,7 @@
 import OrderForm from '~/components/OrderForm.vue'
 
 export default {
+  layout: 'app',
   components: { OrderForm },
   data() {
     return {

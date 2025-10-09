@@ -59,6 +59,7 @@
 import memberService from '~/services/memberService'
 
 export default {
+  layout: 'app',
   data() {
     return { 
       form: { name:'', email:'', phone:'', address:'', status:'active' } 

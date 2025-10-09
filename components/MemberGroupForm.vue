@@ -31,6 +31,7 @@
 
 <script>
 export default {
+  layout: 'app',
   props: {
     isEdit: { type: Boolean, default: false },
     formData: { type: Object, default: () => ({}) },

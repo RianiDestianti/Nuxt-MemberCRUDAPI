@@ -36,6 +36,7 @@
 
 <script>
 export default {
+  layout: 'app',
   props: {
     form: { type: Object, required: true },
     members: { type: Array, default: () => [] },
