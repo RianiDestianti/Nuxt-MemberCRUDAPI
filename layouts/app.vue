@@ -18,7 +18,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <nuxt-link class="nav-link active" to="/dashboard">Dashboard</nuxt-link>
+              <nuxt-link class="nav-link" to="/dashboard">Dashboard</nuxt-link>
             </li>
             <li class="nav-item">
               <nuxt-link class="nav-link" to="/profile">Profile</nuxt-link>
