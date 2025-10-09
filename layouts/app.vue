@@ -3,7 +3,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container-fluid">
-        <nuxt-link class="navbar-brand" to="/">MyApp</nuxt-link>
+        <nuxt-link class="navbar-brand" to="/">Nexa Cloud Suite</nuxt-link>
         <button
           class="navbar-toggler"
           type="button"
@@ -39,7 +39,7 @@
     <!-- Footer -->
     <footer class="bg-dark text-white py-3 mt-auto">
       <div class="container text-center">
-        &copy; {{ new Date().getFullYear() }} MyApp. All rights reserved.
+        &copy; {{ new Date().getFullYear() }} Nexa. All rights reserved.
       </div>
     </footer>
   </div>
