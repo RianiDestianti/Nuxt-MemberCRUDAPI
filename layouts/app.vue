@@ -41,7 +41,7 @@
     <!-- Content -->
     <main class="flex-grow-1 py-4">
       <div class="container">
-        <nuxt />
+        <nuxt-child />
       </div>
     </main>
 
